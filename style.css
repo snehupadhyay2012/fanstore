@@ -1,0 +1,157 @@
+/*
+Theme Name: Fan Store
+Description: A Fan store theme with a Fan products slider
+Author: Sneh Upadhyay
+Version: 1.0
+*/
+
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --background-color: #000000;
+    --text-color: #ffffff;
+}
+
+.theme_dark {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+body {
+    font-family: sans-serif;
+    margin:0px;
+}
+
+.color-switcher {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.fs_wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main{
+    flex: 1;
+    margin-top: 2px;
+}
+.fs_header {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px 100px 20px 100px;
+    box-shadow: 0 2px 10px #00000021;
+}
+.fs_header .fs_nav {
+    display :block;
+}
+
+.fs_header .fs_nav .fs_logo_container{
+    display :inline-block;
+}
+
+.fs_header .fs_nav .fs_menu_container{
+    float:right;
+}
+.fs_header .fs_nav .fs_menu_container > div, .fs_header .fs_nav .fs_menu_container .color-switcher{
+    display: inline-block;
+}
+
+.fs_header .fs_nav .fs_menu_container .menu li{
+    display: inline-block;
+    padding: 0px 10px;
+}
+
+.fs_header .fs_nav .fs_menu_container .menu li a, .fs_footer .footer_nav_links li a{
+    color:  var(--text-color);;
+    text-decoration: none;
+}
+
+.fs-custom-logo-link .custom-logo {
+    width: 150px!important;
+    height: 60px;
+    object-fit: contain;
+}
+
+.fs-custom-logo-name {
+    color:  var(--text-color);;
+    font-size: 28px;
+    text-decoration: none;
+}
+
+.fs_footer {
+    padding: 20px;
+    background: var(--background-color);
+}
+
+.fs_footer .fs_footer_logo_container{
+    width: 25%;
+    display: inline-block;
+}
+.fs_footer .footer_block_mid{
+    width: 49%;
+    display: inline-block;
+}
+.fs_footer .footer_nav_links{
+    width: 25%;
+    display: inline-block;
+}
+
+.fs_footer .footer_nav_links ul{
+    margin-top:0px;
+}
+.fs_footer .footer_nav_links li{
+    list-style-type: none;
+    padding:5px 0px;
+}
+
+.fs_slider_container .fs_slider_title{
+    position: absolute;
+    bottom: 80px;
+    font-size: 22px;
+    background: rgba(0,0,0,.2);
+    width: 100%;
+    text-align: left;
+    color: #fff;
+    padding: 5px 5px 5px 15px;
+}
+.fs_slider_container .fs_slider_short_desc{
+    position: absolute;
+    bottom: 50px;
+    font-size: 16px;
+    background: rgba(0,0,0,.2);
+    width: 100%;
+    text-align: left;
+    color: #fff;
+    padding: 5px 5px 5px 15px;
+}
+.fs_slider_container .fs_post_thumbnail img{
+    height: 550px !important;
+    object-fit: contain;
+}
+
+.text-image-block {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.text-image-block .block-image{
+    display: inline-block;
+    width: 48%;
+    padding: 10px;
+}
+
+.text-image-block .block-text {
+    display: inline-block;
+    width: 48%;
+    text-align: left;
+    vertical-align: top;
+    padding: 10px;
+}
