@@ -19,6 +19,30 @@
     </div>
     <p>&copy; <?php echo date('Y'); ?> Fan Store Theme. All Rights Reserved.</p>
     <?php wp_footer(); ?>
+    <script>
+        jQuery('.updateSpecifications').on('click',function(){
+            $(this).siblings('.updateSpecifications').removeClass('btn-outline-success active');
+            $(this).addClass('btn-outline-success active');
+
+            let data = JSON.parse($('.vol_freq_data_array').html());
+            let activeVoltage = $('.voltageBtn.active').data('value');
+            let activeFreq = $('.frequencyBtn.active').data('value');
+            
+            if((data[activeVoltage][activeFreq] != undefined) && (data[activeVoltage][activeFreq]['short_specification'] != false)){
+                let html = '';
+                let specification = data[activeVoltage][activeFreq]['short_specification'];
+                
+                specification.forEach(function( val ) {
+                    html += '<div class="specRow"><h4 class="specLabel">'+ val.label +'</h4>';
+                    html += '<p class="specVal">'+ val.value +'</p></div>';              
+                });
+                $('.shortSpecificationContainer').html(html);
+            }else{
+                $('.shortSpecificationContainer').html('');
+            }
+            
+        });
+    </script>
 </footer>
 </div> <!-- Wrapper End-->
 </body>

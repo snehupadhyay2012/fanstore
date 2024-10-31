@@ -41,6 +41,13 @@ function theme_setup() {
         'menu_icon'           => 'dashicons-products',
     );
     register_post_type('fans', $args);
+
+    function enable_pdf_upload($mime_types) {
+        // Allow PDF files
+        $mime_types['pdf'] = 'application/pdf';
+        return $mime_types;
+    }
+    add_filter('upload_mimes', 'enable_pdf_upload');
 }
 add_action('after_setup_theme', 'theme_setup');
 

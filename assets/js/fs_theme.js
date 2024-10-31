@@ -13,10 +13,10 @@ jQuery(window).load(function() {
     //const currentTheme = localStorage.getItem('theme') || 'light';
     //jQuery('html').attr('data-theme', currentTheme);
 
-    jQuery('#theme-icon').attr(
-        'class', 
-        currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun'
-    );
+    // jQuery('#theme-icon').attr(
+    //     'class', 
+    //     currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun'
+    // );
 
     // Handle the button click event to toggle the theme
     jQuery('#theme-icon').on('click', function () {
