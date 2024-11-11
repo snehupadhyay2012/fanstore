@@ -1,15 +1,22 @@
-<?php get_template_part('parts/header'); ?>
+<?php get_template_part('parts/header', null, ['sections' => ['highchart', 'flexslider']]); ?>
 
 <main class="post-content">
     <?php
     if (have_posts()) :
         while (have_posts()) : the_post(); ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <div class="row">
+                <div class="row product_outer_div">
                     <!-- Product Image -->
                     <div class="col-md-6">
                         <div class="border rounded p-3">
-                            <?php echo get_the_post_thumbnail(get_the_ID(),'large',['class' => 'img-fluid rounded']);  ?>
+                            <?php 
+                                $thumbnail = get_field('product_thumbnail');
+                                if(!empty($thumbnail)){
+                                    ?>
+                                        <img src="<?php echo $thumbnail; ?>" class="img-fluid rounded wp-post-image" alt="">
+                                    <?php
+                                }
+                            ?>
                         </div>
                     </div>
 
@@ -17,7 +24,6 @@
                     <div class="col-md-6">
                         <h1 class="product-title mb-3"><?php the_title(); ?></h1>
                         <p class="text-muted">Category: <a href="#">Electronics</a></p>
-
                         <!-- Key Points -->
                         <?php 
                             $getKeyPoints = get_field('key_points');
@@ -89,7 +95,7 @@
     <?php
         endwhile;
     else :
-        echo '<p>No fans found</p>';
+        echo '<p>No product found</p>';
     endif;
     ?>
 </main>

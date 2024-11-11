@@ -1,85 +1,68 @@
-<figure class="highcharts-figure">
-    <div id="container"></div>
-</figure>
+<?php 
+    if(get_sub_field('show') || (isset($args['pdf_template_call']) && ($args['pdf_template_call'] == true))){
+        if(have_rows('variations')){
+            $dataArr = [];
+            $voltages = [];
+            $frequencies = [];
+            $first = 1;
+            while (have_rows('variations')): the_row();
+                $variation = get_sub_field('variation');
+                $voltages[] = isset($variation['voltage']) ? $variation['voltage'] : 0;
+                $frequencies[] = isset($variation['frequency']) ? $variation['frequency'] : 0;
 
-<script>
-    Highcharts.chart('container', {
-        chart: {
-            type: 'spline',
-            inverted: true
-        },
-        title: {
-            text: '25GSC_230V 50Hz',
-            align: 'center'
-        },
-        subtitle: {
-            text: '25GSC_230V 50Hz',
-            align: 'center'
-        },
-        xAxis: {
-            reversed: false,
-            title: {
-                enabled: true,
-                text: 'Static Pressure (Pa)'
-            },
-            labels: {
-                format: '{value}'
-            },
-            accessibility: {
-                rangeDescription: 'Range: 0 to 100'
-            },
-            maxPadding: 0.05,
-            showLastLabel: true,
-            gridLineWidth: 1,
-            lineWidth: 2,
-            lineColor: '#ccd6eb'
-        },
-        yAxis: {
-            title: {
-                text: 'Air Volume (m³/h)'
-            },
-            labels: {
-                format: '{value}'
-            },
-            accessibility: {
-                rangeDescription: 'Range: 0 to 1200'
-            },
-            gridLineWidth: 1,
-            lineWidth: 1,
-            lineColor: '#ccd6eb'
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            headerFormat: '',
-            pointFormat: '{point.y} m³/h </br> {point.x} pa'
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enable: false
+                if($first == 1){
+                    $activeVoltage = isset($args['active_voltage']) ? $args['active_voltage'] : (isset($variation['voltage']) ? $variation['voltage'] : 0 ); 
+                    $activeFreq = isset($args['active_frequency']) ? $args['active_frequency'] : (isset($variation['frequency']) ? $variation['frequency'] : 0 );
                 }
+
+                $dataArr[$variation['voltage']][$variation['frequency']]['curve_data'] = isset($variation['curve_data']) ? $variation['curve_data'] : [];
+                $first = 0;
+            endwhile;
+            $voltages = array_unique($voltages);
+            $frequencies = array_unique($frequencies);
+
+            $currentCurve = [];
+            foreach($dataArr[$voltages[0]][$frequencies[0]]['curve_data'] as $curveData){
+                $currentCurve[] = [(int) $curveData['static_pressure'], (int) $curveData['air_volume']];
             }
-        },
-        series: [{
-            name: 'Temperature',
-            color: '#c12227',
-            data: [
-                [0, 1120], [18, 1001], [27, 904], [34, 795], [37, 705],
-                [40, 594], [47, 400], [54, 294], [59, 207], [72, 95], [89, 0]
-            ],
-            marker: {
-                enabled: false, // Hide markers by default
-                states: {
-                    hover: {
-                        enabled: true // Show markers on hover
-                    }
-                }
-            }
+            ?>
+                <div class="d-none curve_data_array"><?= json_encode($dataArr); ?></div>
+                <div class="d-none activeHighchart_data_array" data-animation="<?= isset($args['animation']) ? $args['animation'] : true; ?>"><?= json_encode($currentCurve); ?></div>
+                <div class="row row-cols-lg-auto justify-content-center mt-3 curve_tab_btns <?= (isset($args['pdf_template_call']) && ($args['pdf_template_call'] == true)) ? 'd-none' : '' ?>">
+                    <div class="col-auto voltage-col">
+                        Voltage [V]
+                        <?php 
+                            foreach ($voltages as $voltage){
+                                ?>
+                                    <button class="btn <?= $activeVoltage == $voltage ? 'btn-outline-success active':'' ?> voltageBtn updateCurve" data-value="<?= $voltage ?>"><?= $voltage ?></button>
+                                <?php
+                            }
+                        ?>
+                    </div>
+                    <div class="col-auto freq-col">
+                        Frequency [Hz]
+                        <?php 
+                            foreach ($frequencies as $frequency){
+                                ?>
+                                    <button class="btn <?= $activeFreq == $frequency ? 'btn-outline-success active':'' ?> frequencyBtn updateCurve" data-value="<?= $frequency ?>"><?= $frequency ?></button>
+                                <?php
+                            }
+                        ?>
+                    </div>
+                </div>
 
-        }]
-    });
+            <?php
+        }
+    ?>
+        <figure class="highcharts-figure">
+            <div id="container" style="width:500px!important"></div>
+        </figure>
 
-
-</script>
+        <script>
+            jQuery(window).load(function() {
+                updateCurve();
+            });
+        </script>
+        <?php
+    }
+?>

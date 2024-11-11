@@ -20,6 +20,9 @@ if (have_rows('main_page_sections')):
     foreach ($other_sections as $section):
         echo $section;
     endforeach;
+
+else : 
+    the_content();
 endif;
 ?>
 

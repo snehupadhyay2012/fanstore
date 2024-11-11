@@ -1,4 +1,4 @@
-<?php get_template_part('parts/header'); ?>
+<?php get_template_part('parts/header', null, ['sections' => ['flexslider']]); ?>
 <?php
 if (have_rows('main_page_sections')): 
     $slider_content = '';
